@@ -15,8 +15,9 @@ kinde_api_client_params = {
     "client_id": app.config["CLIENT_ID"],
     "client_secret": app.config["CLIENT_SECRET"],
     "grant_type": app.config["GRANT_TYPE"],
+    "callback_url": app.config["KINDE_CALLBACK_URL"],
 }
-if app.config["GRANT_TYPE"] == GrantType.AUTORIZATION_CODE_WITH_PKCE:
+if app.config["GRANT_TYPE"] == GrantType.AUTHORIZATION_CODE_WITH_PKCE:
     kinde_api_client_params["code_verifier"] = app.config["CODE_VERIFIER"]
 
 kinde_client = KindeApiClient(**kinde_api_client_params)
@@ -36,12 +37,12 @@ def index():
 
 @app.route("/api/auth/login")
 def login():
-    return app.redirect(kinde_client.login())
+    return app.redirect(kinde_client.get_login_url())
 
 
 @app.route("/api/auth/register")
 def register():
-    return app.redirect(kinde_client.register())
+    return app.redirect(kinde_client.get_register_url())
 
 
 @app.route("/api/auth/kinde_callback")
@@ -55,6 +56,3 @@ def logout():
     return app.redirect(
         kinde_client.logout(redirect_to=app.config["LOGOUT_REDIRECT_URL"])
     )
-
-
-app.run(host=app.config["SITE_HOST"], port=app.config["SITE_PORT"])
