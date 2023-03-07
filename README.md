@@ -6,13 +6,19 @@ To get started set up an account on [Kinde](https://app.kinde.com/register).
 
 ## Setup your local environment
 
-Clone this repo and install dependencies by running `pip install -r requirements.txt`
+Clone this repo and install dependencies by running 
+```console
+$ pip install -r requirements.txt
+```
+The minimum required version of Python is 3.7.
 
 Set the variables in `config.py` with the details from the Kinde `App Keys` page
 
 > KINDE_ISSUER_URL - The token host value
 >
 > KINDE_CALLBACK_URL - The callback URL
+> 
+> LOGOUT_REDIRECT_URL - The logout URL (after logging out)
 >
 > CLIENT_ID - The client id
 >
@@ -23,6 +29,7 @@ e.g.
 ```
 KINDE_ISSUER_URL = "https://your_kinde_subdomain.kinde.com"
 KINDE_CALLBACK_URL = "http://localhost:5000/api/auth/kinde_callback"
+LOGOUT_REDIRECT_URL = "http://localhost:5000"
 CLIENT_ID = "someClientId"
 CLIENT_SECRET = "some5ecretFromappKey5pag3"
 ```
