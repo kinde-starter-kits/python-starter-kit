@@ -1,2 +1,2 @@
 Flask==2.2.2
-git+https://github.com/kinde-oss/kinde-python-sdk#egg=kinde_python_sdk
+kinde-python-sdk==1.1.0
