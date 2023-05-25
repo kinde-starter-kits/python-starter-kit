@@ -151,6 +151,18 @@ a {
   padding: var(--g-font-size-large) var(--g-font-size-x-large);
 }
 
+.btn-primary {
+  background-color: var(--g-color-black);
+  border: none;
+  color: var(--g-color-white);
+  padding: var(--g-font-size-large) var(--g-font-size-x-large);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: var(--g-font-size-base);
+  border-radius: var(--g-border-radius-base);
+}
+
 .hero {
   align-items: center;
   display: flex;
@@ -199,6 +211,11 @@ a {
   text-align: center;
 }
 
+.start-hero-small {
+  padding: var(--g-spacing-small);
+  text-align: center;
+}
+
 .start-hero-intro {
   margin-bottom: var(--g-spacing-base);
 }
@@ -223,4 +240,53 @@ a {
 
 .next-steps-section {
   margin-top: var(--g-spacing-2x-large);
+}
+
+.center {
+  text-align: center;
+}
+
+.m-0 {
+  margin: var(--g-spacing-small);
+}
+
+.m-1 {
+  margin: var(--g-spacing-base);
+}
+
+.m-2 {
+  margin: var(--g-spacing-large);
+}
+
+.m-3 {
+  margin: var(--g-spacing-x-large);
+}
+
+.m-4 {
+  margin: var(--g-spacing-2x-large);
+}
+
+.m-5 {
+  margin: var(--g-spacing-3x-large);
+}
+
+.m-6 {
+  margin: var(--g-spacing-4x-large);
+}
+
+pre {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.code {
+  box-shadow: 0 1px 2px 0 var(--g-color-grey-600);
+  margin: 1rem;
+  padding: var(--g-spacing-small);
+  border: 1px solid var(--g-color-grey-600);
+  border-left-width: var(--g-spacing-small);
+  border-radius: var(--g-border-radius-small);
 }

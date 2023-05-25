@@ -1,0 +1,40 @@
+{% extends "logged_in.html" %}
+
+{% block main %}
+<main>
+  <div class="container">
+    <div class="card start-hero-small">
+      <p class="text-body-2">
+        User details
+      </p>
+    </div>
+    <p class="text-body-2 next-steps-section">
+      <h4>Avatar:</h4>
+      <p class="center">
+        {% if user_picture %}
+          <img src="{{ user_picture }}">
+        {% else %}
+          (No avatar)
+        {% endif %}
+      </p>
+
+      <h4>Given name:</h4>
+      <input class="code text-body-3" size="70" value="{{ user_given_name }}" disabled>
+
+      <h4>Family name:</h4>
+      <input class="code text-body-3" size="70" value="{{ user_family_name }}" disabled>
+
+      <h4>Email:</h4>
+      <input class="code text-body-3" size="70" value="{{ user_email }}" disabled>
+
+      <h4>Access token:</h4>
+      <pre class="code text-body-3">
+        {{ access_token }}
+      </pre>
+    </p>
+    <div class="center">
+      <a class="btn btn-primary m-1" href="{{ url_for('index') }}">Back to home</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

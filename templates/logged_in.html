@@ -1,53 +1,43 @@
 {% extends "base.html" %}
 
 {% block body %}
-<header>
-  <nav class="nav container">
-    <h1 class="text-display-3">
-      KindeAuth
-    </h1>
-    <div class="profile-blob">
-      <div class="avatar">
-        {{ user_given_name[0] }}{{ user_family_name[0] }}
+  {% block header %}
+  <header>
+    <nav class="nav container">
+      <h1 class="text-display-3">
+        KindeAuth
+      </h1>
+      <div class="profile-blob">
+        <div class="avatar">
+          {{ user_given_name[0] }}{{ user_family_name[0] }}
+        </div>
+        <div>
+          <p class="text-heading-2">
+            {{ user_given_name }} {{ user_family_name }}
+          </p>
+          <a class="text-subtle" href="{{ url_for('logout') }}">
+            Sign out
+          </a>
+        </div>
       </div>
-      <div>
-        <p class="text-heading-2">
-          {{ user_given_name }} {{ user_family_name }}
-        </p>
-        <a class="text-subtle" href="{{ url_for('logout') }}">
-          Sign out
-        </a>
-      </div>
-    </div>
-  </nav>
-</header>
-<main>
-  <div class="container">
-    <div class="card start-hero">
-      <p class="text-body-2 start-hero-intro">
-        Woohoo!
+    </nav>
+  </header>
+  {% endblock %}
+
+  {% block main %} {% endblock %}
+
+  {% block footer %}
+  <footer class="footer">
+    <div class="container">
+      <strong class="text-heading-2">
+        KindeAuth
+      </strong>
+      <p class="footer-tagline text-body-3">
+        Visit our <a class="link" href="https://kinde.com/docs">help center</a>
       </p>
-      <p class="text-display-2">
-        Your authentication is all sorted.<br>Build the important stuff.
-      </p>
+      <small class="text-subtle">© {{ current_year }} KindeAuth, Inc. All rights reserved
+      </small>
     </div>
-    <section class="next-steps-section">
-      <h2 class="text-heading-1">
-        Next steps for you
-      </h2>
-    </section>
-  </div>
-</main>
-<footer class="footer">
-  <div class="container">
-    <strong class="text-heading-2">
-      KindeAuth
-    </strong>
-    <p class="footer-tagline text-body-3">
-      Visit our <a class="link" href="https://kinde.com/docs">help center</a>
-    </p>
-    <small class="text-subtle">© {{ current_year }} KindeAuth, Inc. All rights reserved
-    </small>
-  </div>
-</footer>
+  </footer>
+  {% endblock %}
 {% endblock %}

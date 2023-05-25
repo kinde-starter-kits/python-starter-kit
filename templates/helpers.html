@@ -1,0 +1,38 @@
+{% extends "logged_in.html" %}
+
+{% block main %}
+<main>
+  <div class="container">
+    <div class="card start-hero-small">
+      <p class="text-body-2">
+        Helper functions
+      </p>
+    </div>
+    <p class="text-body-2 next-steps-section">
+      <h4>Get claim: (iss)</h4>
+      <input class="code text-body-3" size="70" value="{{ claim }}" disabled>
+
+      <h4>Organization:</h4>
+      <input class="code text-body-3" size="70" value="{{ organization }}" disabled>
+
+      <h4>User organizations:</h4>
+      <input class="code text-body-3" size="70" value="{{ user_organizations }}" disabled>
+
+      <h4>Get flag: (theme)</h4>
+      <input class="code text-body-3" size="70" value="{{ flag }}" disabled>
+
+      <h4>Get boolean flag: (is_dark_mode)</h4>
+      <input class="code text-body-3" size="70" value="{{ bool_flag }}" disabled>
+
+      <h4>Get string flag: (theme)</h4>
+      <input class="code text-body-3" size="70" value="{{ str_flag }}" disabled>
+
+      <h4>Get integer flag: (competitions_limit)</h4>
+      <input class="code text-body-3" size="70" value="{{ int_flag }}" disabled>
+    </p>
+    <div class="center">
+      <a class="btn btn-primary m-1" href="{{ url_for('index') }}">Back to home</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

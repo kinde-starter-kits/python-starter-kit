@@ -23,15 +23,23 @@ if app.config["GRANT_TYPE"] == GrantType.AUTHORIZATION_CODE_WITH_PKCE:
 kinde_client = KindeApiClient(**kinde_api_client_params)
 
 
+def get_authorized_data(kinde_client):
+    user = kinde_client.get_user_details()
+    return {
+        "user_given_name": user.get("given_name"),
+        "user_family_name": user.get("family_name"),
+        "user_email": user.get("email"),
+        "user_picture": user.get("picture"),
+    }
+
+
 @app.route("/")
 def index():
     data = {"current_year": date.today().year}
     template = "logged_out.html"
     if kinde_client.is_authenticated():
-        user = kinde_client.get_user_details()
-        data["user_given_name"] = user.get("given_name")
-        data["user_family_name"] = user.get("family_name")
-        template = "logged_in.html"
+        data.update(get_authorized_data(kinde_client))        
+        template = "home.html"
     return render_template(template, **data)
 
 
@@ -56,3 +64,31 @@ def logout():
     return app.redirect(
         kinde_client.logout(redirect_to=app.config["LOGOUT_REDIRECT_URL"])
     )
+
+
+@app.route("/details")
+def get_details():
+    data = {"current_year": date.today().year}
+    template = "details.html"
+    if kinde_client.is_authenticated():
+        data.update(get_authorized_data(kinde_client))
+        data["access_token"] = kinde_client.configuration.access_token
+        template = "details.html"
+    return render_template(template, **data)
+
+
+@app.route("/helpers")
+def get_helper_functions():
+    data = {"current_year": date.today().year}
+    template = "helpers.html"
+    if kinde_client.is_authenticated():
+        data.update(get_authorized_data(kinde_client))
+        data["claim"] = kinde_client.get_claim("iss")
+        data["organization"] = kinde_client.get_organization()
+        data["user_organizations"] = kinde_client.get_user_organizations()
+        data["flag"] = kinde_client.get_flag("theme")
+        data["bool_flag"] = kinde_client.get_boolean_flag("is_dark_mode")
+        data["str_flag"] = kinde_client.get_string_flag("theme")
+        data["int_flag"] = kinde_client.get_integer_flag("competitions_limit")
+        template = "helpers.html"
+    return render_template(template, **data)
