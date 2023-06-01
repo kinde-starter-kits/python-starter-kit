@@ -1,2 +1,2 @@
 Flask==2.2.2
-kinde-python-sdk==1.2.0
+kinde-python-sdk==1.2.1
