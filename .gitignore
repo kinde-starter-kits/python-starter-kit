@@ -241,3 +241,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Flask session
+flask_session
