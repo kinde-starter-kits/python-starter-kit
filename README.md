@@ -27,11 +27,11 @@ Set the variables in `config.py` with the details from the Kinde `App Keys` page
 e.g.
 
 ```
-KINDE_ISSUER_URL = "https://your_kinde_subdomain.kinde.com"
+KINDE_ISSUER_URL = "https://<your_kinde_subdomain>.kinde.com"
 KINDE_CALLBACK_URL = "http://localhost:5000/api/auth/kinde_callback"
 LOGOUT_REDIRECT_URL = "http://localhost:5000"
-CLIENT_ID = "someClientId"
-CLIENT_SECRET = "some5ecretFromappKey5pag3"
+CLIENT_ID = "<your_kinde_client_id>"
+CLIENT_SECRET = "<your_kinde_client_secret>"
 ```
 
 ## Set your Callback and Logout URLs
