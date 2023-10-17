@@ -10,7 +10,7 @@ Clone this repo and install dependencies by running
 ```console
 $ pip install -r requirements.txt
 ```
-The minimum required version of Python is 3.7.
+The minimum required version of Python is 3.8.
 
 Set the variables in `config.py` with the details from the Kinde `App Keys` page
 
