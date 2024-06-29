@@ -55,7 +55,7 @@ def index():
     template = "logged_out.html"
     if session.get("user"):
         kinde_client = user_clients.get(session.get("user"))
-        if kinde_client.is_authenticated():
+        if kinde_client and kinde_client.is_authenticated():
             data.update(get_authorized_data(kinde_client))        
             template = "home.html"
     return render_template(template, **data)
@@ -93,28 +93,40 @@ def logout():
 @app.route("/details")
 def get_details():
     template = "logged_out.html"
+    data = {"current_year": date.today().year}
+
     if session.get("user"):
         kinde_client = user_clients.get(session.get("user"))
-        data = {"current_year": date.today().year}
-        data.update(get_authorized_data(kinde_client))
-        data["access_token"] = kinde_client.configuration.access_token
-        template = "details.html"
+
+        if kinde_client:
+            data = {"current_year": date.today().year}
+            data.update(get_authorized_data(kinde_client))
+            data["access_token"] = kinde_client.configuration.access_token
+            template = "details.html"
+
     return render_template(template, **data)
 
 
 @app.route("/helpers")
 def get_helper_functions():
     template = "logged_out.html"
+
     if session.get("user"):
         kinde_client = user_clients.get(session.get("user"))
         data = {"current_year": date.today().year}
-        data.update(get_authorized_data(kinde_client))
-        data["claim"] = kinde_client.get_claim("iss")
-        data["organization"] = kinde_client.get_organization()
-        data["user_organizations"] = kinde_client.get_user_organizations()
-        data["flag"] = kinde_client.get_flag("theme")
-        data["bool_flag"] = kinde_client.get_boolean_flag("is_dark_mode")
-        data["str_flag"] = kinde_client.get_string_flag("theme")
-        data["int_flag"] = kinde_client.get_integer_flag("competitions_limit")
-        template = "helpers.html"
+
+        if kinde_client:
+            data.update(get_authorized_data(kinde_client))
+            #print(kinde_client.configuration.access_token)
+            data["claim"] = kinde_client.get_claim("iss")
+            data["organization"] = kinde_client.get_organization()
+            data["user_organizations"] = kinde_client.get_user_organizations()
+            data["flag"] = kinde_client.get_flag("theme","red")
+            data["bool_flag"] = kinde_client.get_boolean_flag("is_dark_mode",False)
+            data["str_flag"] = kinde_client.get_string_flag("theme","red")
+            data["int_flag"] = kinde_client.get_integer_flag("competitions_limit",10)
+            template = "helpers.html"
+        else:
+            template = "logged_out.html"
+
     return render_template(template, **data)
