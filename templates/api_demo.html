@@ -1,0 +1,40 @@
+{% extends "logged_in.html" %}
+
+{% block main %}
+<main>
+  <div class="container">
+    {% if is_api_call: %}
+        <div class="card start-hero-small">
+        <p class="text-body-2">
+            User List
+        </p>
+        </div>
+        <div class="card table-container m-3">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th class="text-heading-2">First Name</th>
+                        <th class="text-heading-2">Last Name</th>
+                        <th class="text-heading-2">Total Sign-ins</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td class="text-body-3">{{ user.first_name }}</td>
+                            <td class="text-body-3">{{ user.last_name }}</td>
+                            <td class="text-body-3">{{ user.total_sign_ins }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <h4>Management API not setup. Please double check your MGMT_API_CLIENT_ID and MGMT_API_CLIENT_SECRET variables in config.py</h4>
+    {% endif %}
+    <div class="center">
+      <a class="btn btn-primary m-1" href="{{ url_for('index') }}">Back to home</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

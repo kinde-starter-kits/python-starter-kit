@@ -290,3 +290,37 @@ pre {
   border-left-width: var(--g-spacing-small);
   border-radius: var(--g-border-radius-small);
 }
+
+.table-container {
+  overflow-x: auto;
+  padding: var(--g-spacing-large);
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.user-table th {
+  text-align: center;
+  padding: 5px;
+}
+.user-table td {
+  padding: var(--g-spacing-base);
+  text-align: left;
+  border-bottom: 1px solid var(--g-color-grey-100);
+}
+
+.user-table th {
+  background-color: var(--g-color-grey-100);
+  color: var(--g-color-grey-900);
+}
+
+.user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.user-table tr {
+  background-color: var(--g-color-grey-100);
+}
