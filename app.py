@@ -4,9 +4,10 @@ from flask_session import Session
 from functools import wraps
 
 
-from kinde_sdk import Configuration
+from kinde_sdk import Configuration, ApiException
 from kinde_sdk.kinde_api_client import GrantType, KindeApiClient
-
+from kinde_sdk.apis.tags import users_api
+from kinde_sdk.model.user import User
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -26,6 +27,8 @@ if app.config["GRANT_TYPE"] == GrantType.AUTHORIZATION_CODE_WITH_PKCE:
 
 kinde_client = KindeApiClient(**kinde_api_client_params)
 user_clients = {}
+
+
 
 def get_authorized_data(kinde_client):
     user = kinde_client.get_user_details()
@@ -126,7 +129,53 @@ def get_helper_functions():
             data["str_flag"] = kinde_client.get_string_flag("theme","red")
             data["int_flag"] = kinde_client.get_integer_flag("competitions_limit",10)
             template = "helpers.html"
+
+
+
         else:
             template = "logged_out.html"
+
+    return render_template(template, **data)
+
+@app.route("/api_demo")
+def get_api_demo():
+    template = "api_demo.html"
+
+    if session.get("user"):
+        kinde_client = user_clients.get(session.get("user"))
+        data = {"current_year": date.today().year}
+
+        if kinde_client:
+            data.update(get_authorized_data(kinde_client))
+
+            try:
+                kinde_mgmt_api_client = KindeApiClient(
+                    configuration=configuration,
+                    domain=app.config["KINDE_ISSUER_URL"],
+                    client_id=app.config["MGMT_API_CLIENT_ID"],
+                    client_secret=app.config["MGMT_API_CLIENT_SECRET"],
+                    audience=f"{app.config['KINDE_ISSUER_URL']}/api",
+                    callback_url=app.config["KINDE_CALLBACK_URL"],
+                    grant_type=GrantType.CLIENT_CREDENTIALS,
+                )
+
+                api_instance = users_api.UsersApi(kinde_mgmt_api_client)
+                api_response = api_instance.get_users()
+                data['users'] = [
+                    {
+                        'first_name': user.get('first_name', ''),
+                        'last_name': user.get('last_name', ''),
+                        'total_sign_ins': int(user.get('total_sign_ins', 0))
+                    }
+                    for user in api_response.body['users']
+                ]
+                data['is_api_call'] = True
+                
+            except ApiException as e:
+                data['is_api_call'] = False
+                print("Exception when calling UsersApi %s\n" % e)
+            except Exception as ex:
+                data['is_api_call'] = False
+                print(f"Management API not setup: {ex}")
 
     return render_template(template, **data)
