@@ -179,11 +179,12 @@ def get_api_demo():
                 print(f"Management API not setup: {ex}")
 
     return render_template(template, **data)
+    
+# Uncomment the following lines if using in a development environment.
 
-
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # Set debug mode and port dynamically
-    DEBUG_MODE = True  # Change to False for production
-    PORT = 5000        # Adjust the port if needed
-    app.run(debug=DEBUG_MODE, port=PORT)
+    # DEBUG_MODE = True  # Change to False for production
+    # PORT = 5000        # Adjust the port if needed
+    # app.run(debug=DEBUG_MODE, port=PORT)
 
