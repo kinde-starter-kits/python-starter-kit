@@ -180,5 +180,10 @@ def get_api_demo():
 
     return render_template(template, **data)
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Set debug mode and port dynamically
+    DEBUG_MODE = True  # Change to False for production
+    PORT = 5000        # Adjust the port if needed
+    app.run(debug=DEBUG_MODE, port=PORT)
+
