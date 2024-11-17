@@ -179,3 +179,6 @@ def get_api_demo():
                 print(f"Management API not setup: {ex}")
 
     return render_template(template, **data)
+
+if __name__ == "__main__":
+    app.run(debug=True)
