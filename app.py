@@ -4,6 +4,7 @@ from flask_session import Session
 from functools import wraps
 import asyncio
 import logging
+import os
 from dotenv import load_dotenv
 
 # Import kinde_flask to register the Flask framework
@@ -11,6 +12,7 @@ import kinde_flask
 
 from kinde_sdk.auth.oauth import OAuth
 from kinde_sdk.auth import claims, feature_flags, permissions, tokens
+from kinde_sdk.management import ManagementClient;
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -127,38 +129,28 @@ def get_helper_functions():
 def get_api_demo():
     template = "api_demo.html"
 
-    kinde_client = user_clients.get(session.get("user"))
     data = {"current_year": date.today().year}
-
-    if kinde_client:
-        data.update(get_authorized_data(kinde_client))
-
+    data.update(get_authorized_data())
+    if kinde_oauth.is_authenticated():
         try:
-            kinde_mgmt_api_client = KindeApiClient(
-                configuration=configuration,
-                domain=app.config["KINDE_ISSUER_URL"],
-                client_id=app.config["MGMT_API_CLIENT_ID"],
-                client_secret=app.config["MGMT_API_CLIENT_SECRET"],
-                audience=f"{app.config['KINDE_ISSUER_URL']}/api",
-                callback_url=app.config["KINDE_CALLBACK_URL"],
-                grant_type=GrantType.CLIENT_CREDENTIALS,
+            # Initialize ManagementClient with environment variables
+            management_client = ManagementClient(
+                domain=os.getenv("KINDE_DOMAIN"),
+                client_id=os.getenv("KINDE_MANAGEMENT_CLIENT_ID"),
+                client_secret=os.getenv("KINDE_MANAGEMENT_CLIENT_SECRET")
             )
-
-            api_instance = users_api.UsersApi(kinde_mgmt_api_client)
-            api_response = api_instance.get_users()
+            api_response = management_client.get_users()
+            print(f"Management API not setup: {api_response}")
             data['users'] = [
                 {
-                    'first_name': user.get('first_name', ''),
-                    'last_name': user.get('last_name', ''),
-                    'total_sign_ins': int(user.get('total_sign_ins', 0))
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'total_sign_ins': int(user.total_sign_ins)
                 }
-                for user in api_response.body['users']
+                for user in api_response.users
             ]
             data['is_api_call'] = True
             
-        except ApiException as e:
-            data['is_api_call'] = False
-            print("Exception when calling UsersApi %s\n" % e)
         except Exception as ex:
             data['is_api_call'] = False
             print(f"Management API not setup: {ex}")

@@ -1,5 +1,5 @@
 python-dotenv>=1.0.0
 Flask~=3.0.0
-kinde-python-sdk~=2.0.4
+kinde-python-sdk~=2.0.6
 Flask-Session~=0.5.0
 Werkzeug~=3.0.0
