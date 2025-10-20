@@ -118,6 +118,7 @@ jspm_packages/
 
 # Typescript v1 declaration files
 typings/
+temp_auto_push.bat
 
 # Optional npm cache directory
 .npm
@@ -152,11 +153,6 @@ typings/
 
 
 ### VisualStudioCode template
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -243,4 +239,5 @@ Temporary Items
 .apdisk
 
 # Flask session
-flask_session
+flask_session.gitignore
+branch_structure.json
