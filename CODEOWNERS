@@ -1,1 +1,5 @@
 * @kinde-starter-kits/giants-kinde
+pyproject.toml @kinde-starter-kits/sdk-engineers
+**/pyproject.toml @kinde-starter-kits/sdk-engineers
+requirements.txt @kinde-starter-kits/sdk-engineers
+**/requirements.txt @kinde-starter-kits/sdk-engineers
