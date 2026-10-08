@@ -244,3 +244,5 @@ Temporary Items
 
 # Flask session
 flask_session
+# Local environment (Kinde credentials and secrets)
+.env
