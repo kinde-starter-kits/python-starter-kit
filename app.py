@@ -38,21 +38,14 @@ def get_authorized_data():
     
     logger.info("get_authorized_data: User is authenticated, getting user info")
     user = kinde_oauth.get_user_info()
-    logger.info(f"get_authorized_data: User: {user}")
-    
+
     if not user:
         logger.warning("get_authorized_data: Failed to get user info")
         return None
-    
-    logger.info(f"get_authorized_data: Successfully retrieved user info for user ID: {user.get('id', 'unknown')}")
-    logger.info(f"get_authorized_data: Full user data: {user}")
-    id_token = tokens.get_token_manager().get_id_token()
-    logger.info(f"get_authorized_data: ID token: {id_token}")
-    access_token = tokens.get_token_manager().get_access_token()
-    logger.info(f"get_authorized_data: Access token: {access_token}")
-    claims = tokens.get_token_manager().get_claims()
-    logger.info(f"get_authorized_data: Claims: {claims}")
-    
+
+    # Never log tokens, claims or the user's profile: logs are often shared or stored
+    logger.info("get_authorized_data: Successfully retrieved user info")
+
     user_data = {
         "id": user.get("id"),
         "user_given_name": user.get("given_name"),
@@ -60,8 +53,7 @@ def get_authorized_data():
         "user_email": user.get("email"),
         "user_picture": user.get("picture"),
     }
-    
-    logger.info(f"get_authorized_data: Returning user data: {user_data}")
+
     return user_data
 
 
@@ -98,8 +90,9 @@ def get_management_client():
 def index():
     data = {"current_year": date.today().year}
     template = "logged_out.html"
-    if kinde_oauth.is_authenticated():
-        data.update(get_authorized_data())        
+    user_data = get_authorized_data()
+    if user_data:
+        data.update(user_data)
         template = "home.html"
     return render_template(template, **data)
 
@@ -110,9 +103,9 @@ def get_details():
     template = "logged_out.html"
     data = {"current_year": date.today().year}
 
-    if kinde_oauth.is_authenticated():
-        data = {"current_year": date.today().year}
-        data.update(get_authorized_data())
+    user_data = get_authorized_data()
+    if user_data:
+        data.update(user_data)
         data["access_token"] = tokens.get_token_manager().get_access_token()
         template = "details.html"
 
@@ -125,9 +118,9 @@ def get_helper_functions():
 
     data = {"current_year": date.today().year}
 
-    if kinde_oauth.is_authenticated():
-        data.update(get_authorized_data())
-        #print(kinde_client.configuration.access_token)
+    user_data = get_authorized_data()
+    if user_data:
+        data.update(user_data)
         
         try:
             # Handle async calls using event loop
@@ -198,7 +191,11 @@ def get_api_demo():
     template = "api_demo.html"
 
     data = {"current_year": date.today().year}
-    data.update(get_authorized_data())
+    user_data = get_authorized_data()
+    if not user_data:
+        return render_template("logged_out.html", **data)
+    data.update(user_data)
+
     if kinde_oauth.is_authenticated():
         management_client = get_management_client()
         
